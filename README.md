@@ -639,3 +639,52 @@ print("Best State by Profit:", state_profit.idxmax())
 print("Worst State by Profit:", state_profit.idxmin())
 print("Best Month:", monthly.idxmax())
 print("Worst Month:", monthly.idxmin())
+_____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+import pandas as pd
+
+a=pd.read_csv("healthcare_dataset.csv")
+# a.head(10)
+# a.shape
+# a.columns
+# a.dtypes
+# a.isnull().sum()
+# a.duplicated()
+# a.describe()
+# a["Test Results"].value_counts()
+_______________________________________________________________________________________
+
+# a.copy()
+# a.isnull().sum()
+# a.fillna(a.select_dtypes("number").median())
+# a.fillna(a.select_dtypes(include=["object","category"]).mode().iloc[0])
+# a.drop_duplicates(inplace=True)
+# a.isnull().sum()
+# a.duplicated()
+# a["Age"].value_counts()
+# a["Age"].min()
+# a["Age"].max()
+# a["Age"].mean()
+# a["Billing Amount"].median()
+________________________________________________________________________________________
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+# plt.figure(figsize=(8,5))
+# plt.plot(a["Medical Condition"])
+# plt.show()
+# plt.figure(figsize=(8,5))
+# plt.plot(a["Gender"])
+# plt.show()
+# plt.figure(figsize=(8,5))
+# plt.plot(a["Age"])
+# plt.show()
+# plt.figure(figsize=(8,5))
+# sns.countplot(a["Medical Condition"])
+# plt.show()
+# plt.scatter(a["Age"],a["Billing Amount"])
+# plt.show()
+# sns.heatmap(data=a.select_dtypes(include="number").corr(),annot=True,cmap="coolwarm")
+# plt.show()
+# sns.boxplot(data=a,y="Billing Amount",color="skyblue")
+# plt.show()
+
+_____________________________________________________________________________________________________________________________________________________________________________________________________________________________
