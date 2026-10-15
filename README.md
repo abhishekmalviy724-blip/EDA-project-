@@ -688,3 +688,105 @@ ________________________________________________________________________________
 # plt.show()
 
 _____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+# Data Preproccess Practise
+import pandas as pd
+
+Data = pd.read_csv("healthcare_dataset.csv")
+Data.shape
+Data.columns
+Data.dtypes
+Data.isnull().sum()
+Data.duplicated().sum()
+Data.describe()
+Data["Test Results"].value_counts()
+______________________________________________
+print(Data.isnull().mean())
+print(Data.nunique().value_counts())
+for i in Data.select_dtypes(include=["object"]):
+    print(i)
+    print(Data[i].unique())
+
+Q1 = Data.select_dtypes('number').quantile(0.25)
+Q3 = Data.select_dtypes('number').quantile(0.75)
+IQR = Q3 - Q1
+lower = Q1 - 1.5 * IQR
+upper = Q3 + 1.5 * IQR
+outlier = Data[(Data.select_dtypes("number")<lower) | (Data.select_dtypes("number")>upper)]
+print(outlier)
+print(Data["Test Results"].value_counts(normalize=True)*100)
+
+for i in Data.select_dtypes("number").columns:
+    Q1,Q3=Data[i].quantile(0.25),Data[i].quantile(0.75)
+    IQR = Q3 - Q1
+    Data[i]=Data[i].clip(lower=Q1-1.5*IQR,upper=Q3+1.5*IQR)
+__________________________________________________________________________________________________
+import pandas as pd
+import numpy as np
+df = pd.DataFrame({
+    "Age": [22, 25, np.nan, 30,  np.nan],
+    "Salary": [25000, np.nan, 35000, 40000, 30000],
+    "City": ["Indore", "Bhopal", np.nan, "Indore", np.nan],
+    "Experience": [1, 2, 3, np.nan, 5]
+})
+df["Age"]=df["Age"].fillna(df["Age"].mean())
+df["Salary"] = df["Salary"].fillna(df["Salary"].median())
+df["Experience"]=df["Experience"].fillna(df["Experience"].median())
+missing_check = df[["Age","Salary","Experience"]].isnull().sum()
+if (missing_check==0).all():
+    print("yes")
+else:
+    print("No")
+print(df.isnull().sum())
+print(df.isnull().sum()/len(df)*100)
+print(df.isnull().sum().sum())
+print(df.isnull().sum().idxmax())
+print(df.isnull().sum().max())
+_____________________________________________________________________________
+df = pd.DataFrame({
+    "City": ["Indore", "Bhopal", np.nan, "Indore", np.nan, "Bhopal"],
+    "Gender": ["Male", np.nan, "Female", "Male", "Female", np.nan],
+    "Department": ["IT", "HR", "IT", np.nan, "HR", "IT"]
+})
+print(df.isnull().sum())
+col = ["City","Gender","Department"]
+df[col]=df[col].fillna(df[col].mode().iloc[0])
+print(df[col].isnull().sum())
+if df.isnull().sum().sum()==0:
+    print("No")
+else:
+    print("Yss")
+print(df)
+_____________________________________________________________________________
+c = ["City", "Gender", "Department"]
+df[c] =df[c].fillna(df[c].mode().iloc[0])
+print(df[c].isnull().sum())
+print(df.isnull().sum())
+if df.isnull().sum().sum()==0:
+    print("no")
+else:
+    print("No")
+________________________________________________
+import pandas as pd
+import numpy as np
+from sklearn.impute import SimpleImputer
+df = pd.DataFrame({
+    "Age": [22, np.nan, 30, 25, np.nan, 40],
+    "Salary": [25000, 30000, np.nan, 40000, 35000, np.nan],
+    "City": ["Indore", np.nan, "Bhopal", "Indore", "Ujjain", np.nan],
+    "Experience": [1, 2, np.nan, 3, 4, 5]
+})
+print(df.select_dtypes("number"))
+print(df.select_dtypes(include=["object","category"]))
+numeric = df.select_dtypes("number").columns
+imputer = SimpleImputer(strategy="median")
+df[numeric]=imputer.fit_transform(df[numeric])
+print(df)
+category = df.select_dtypes(include=["object","category"]).columns
+impu = SimpleImputer(strategy="most_frequent")
+df[category]=impu.fit_transform(df[category])
+print(df)
+if df.isnull().sum().sum()==0:
+    print("no")
+else:
+    print("yss")
+_____________________________________________________________________________________________________________________________________________________________________________________________________________________________
