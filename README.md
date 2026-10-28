@@ -790,3 +790,74 @@ if df.isnull().sum().sum()==0:
 else:
     print("yss")
 _____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+from common_imports import *
+
+Data = pd.read_csv("Sample - Superstore.csv", encoding="latin1")
+
+print(Data.shape)
+print(Data[:10])
+print(Data.columns)
+print(Data.isnull().sum())
+
+print(Data.duplicated().sum())
+Data.drop_duplicates(inplace=True)
+print(Data)
+Data["Order Date"] = pd.to_datetime(Data["Order Date"])
+Data["Ship Date"] = pd.to_datetime(Data["Ship Date"])
+Data.to_csv("Sample - Superstore.csv", index=False)
+print(Data[["Order Date", "Ship Date"]].dtypes)
+print(Data.select_dtypes("number").describe())
+
+plt.hist(Data["Sales"],bins=30)
+plt.xlabel("Sales")
+plt.ylabel("Frequency")
+plt.title("Sales Distribution")
+plt.show()
+
+plt.hist(Data["Profit"],bins=30)
+plt.xlabel("Profit")
+plt.ylabel("Frequency")
+plt.title("Profit Distribution")
+plt.show()
+
+plt.boxplot(Data["Discount"])
+plt.xlabel("Descount")
+plt.ylabel("Frequency")
+plt.title("Discount Distribution")
+plt.show()
+
+Data["Category"].value_counts().plot(kind="bar")
+plt.xlabel("Category")
+plt.ylabel("Frequency")
+plt.title("Category Distribution")
+plt.show()
+
+Data["Segment"].value_counts().plot(kind="bar")
+plt.xlabel("Segment")
+plt.ylabel("Count")
+plt.title("Segment-wise Count")
+plt.show()
+
+Data.groupby("Category")["Profit"].sum().plot(kind="bar")
+plt.xlabel("Category")
+plt.ylabel("Total Profit")
+plt.title("Category-wise Total Profit")
+plt.show()
+
+Data.groupby("Region")["Sales"].sum().plot(kind="bar")
+plt.xlabel("Region")
+plt.ylabel("Total Sales")
+plt.title("Category-wise Total Sales")
+plt.show()
+
+plt.scatter(Data["Sales"],Data["Profit"])
+plt.xlabel("Sales")
+plt.ylabel("Profit")
+plt.title("Category- Wise profit")
+plt.show()
+
+sns.heatmap(Data[["Sales","Profit","Discount"]].corr(), annot=True)
+plt.show()
+
+_____________________________________________________________________________________________________________________________________________________________________________________________________________________________
